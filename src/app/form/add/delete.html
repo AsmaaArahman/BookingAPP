@@ -1,0 +1,10 @@
+<h1 dir="rtl" mat-dialog-title>حذف!!</h1>
+<div dir="rtl" mat-dialog-content>
+    <h3>هل انت متأكد من حذف الصورة</h3>
+    <h2 style="color: brown" color="warn"><strong>سيتم حذف الصورة نهائياً ولا يمكن استرجاعها</strong></h2>
+    <img [src]="img(data.uri)" alt="">
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="action(false)">الغاء</button>
+    <button mat-flat-button color="warn" (click)="action(true)">حذف</button>
+</div>

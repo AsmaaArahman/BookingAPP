@@ -1,0 +1,137 @@
+
+<!-- <div id="paginator" class="wrap"> -->
+    <!--     <button mat-flat-button [disabled]="query.current_page == 1" (click)="search(1);"> -->
+	<!--         <mat-icon class="mat-icon-rtl-mirror" [style.color]="(query.current_page == 1) ? 'black' : 'white'" -->
+	<!--             onerror="this.onerror=null; this.src='assets/delete/1x/delete.png'">first_page -->
+	    <!--         </mat-icon> -->
+	<!--     </button> -->
+    <!--     <button mat-flat-button [disabled]="query.current_page == 1" (click)="search(query.current_page - 1);"> -->
+	<!--         <mat-icon class="mat-icon-rtl-mirror" [style.color]="(query.current_page == 1) ? 'black' : 'white'" -->
+	<!--             onerror="this.onerror=null; this.src='assets/delete/1x/delete.png'">chevron_left -->
+	    <!--         </mat-icon> -->
+	<!--     </button> -->
+    <!--     <button mat-flat-button [disabled]="query.current_page == query.last_page" (click)="search(query.current_page + 1);"> -->
+	<!--         <mat-icon class="mat-icon-rtl-mirror" -->
+	<!--             [style.color]="(query.current_page == query.last_page) ? 'black' : 'white'" -->
+	<!--             onerror="this.onerror=null; this.src='assets/delete/1x/delete.png'">chevron_right -->
+	    <!--         </mat-icon> -->
+	<!--     </button> -->
+    <!--     <button mat-flat-button [disabled]="query.current_page == query.last_page" (click)="search(query.last_page);"> -->
+	<!--         <mat-icon class="mat-icon-rtl-mirror" -->
+	<!--             [style.color]="(query.current_page == query.last_page) ? 'black' : 'white'" -->
+	<!--             onerror="this.onerror=null; this.src='assets/delete/1x/delete.png'">last_page -->
+	    <!--         </mat-icon> -->
+	<!--     </button> -->
+    <!-- </div> -->
+
+
+<mat-card class="my-4 mx-4">
+
+    <mat-card-header>
+<div class="wrap" style="float: right">
+    
+    <mat-form-field appearance="legacy" class="w-50">
+        <input matInput [(ngModel)]="query.filter" placeholder="بحث">
+    </mat-form-field>
+    <mat-form-field appearance="legacy" class="w-50">
+        <input matInput type="number" [(ngModel)]="query.per" placeholder="العدد لكل صفحة">
+    </mat-form-field>
+    <button mat-raised-button color="accent" (click)="search(1);">بحث</button>
+</div>
+
+    </mat-card-header>
+    <div class="data" *ngIf="res.type">
+    <table  mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+	<ng-container matColumnDef="index">
+            <th mat-header-cell *matHeaderCellDef> م </th>
+            <td mat-cell (click)="showForm(element)" *matCellDef="let element;"> {{element.index + query.index}} </td>
+	</ng-container>
+
+	<ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> اسم المشروع </th>
+            <td mat-cell (click)="showForm(element)" *matCellDef="let element"> {{element.name}} </td>
+	</ng-container>
+
+	<ng-container matColumnDef="field">
+            <th mat-header-cell *matHeaderCellDef> المجال </th>
+            <td mat-cell (click)="showForm(element)" *matCellDef="let element"> {{element.field}} </td>
+	</ng-container>
+
+	<ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef> تاريخ التنفيذ </th>
+            <td mat-cell (click)="showForm(element)" *matCellDef="let element"> {{element.date}} </td>
+	</ng-container>
+
+	<ng-container matColumnDef="dateCreated">
+            <th mat-header-cell *matHeaderCellDef> تاريخ التسجيل </th>
+            <td mat-cell (click)="showForm(element)" *matCellDef="let element"> {{element.dateCreated}} </td>
+	</ng-container>
+
+	<ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef> تعديل </th>
+            <td mat-cell *matCellDef="let element">
+		<a [routerLink]="[ '/edit/',element.id ]">
+                    <button mat-flat-button color="accent">
+			<mat-icon style="color:white" onerror="this.onerror=null; this.src='assets/edit/1x/edit.png'">edit
+			</mat-icon>
+                    </button>
+                    <!-- <img src="assets/edit/edit.svg" onerror="this.onerror=null; this.src='assets/edit/1x/edit.png'"> -->
+		</a>
+            </td>
+	</ng-container>
+
+	<ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef> حذف </th>
+            <td mat-cell *matCellDef="let element;">
+		<button mat-flat-button (click)="deleteForm(element)" color="warn">
+                    <mat-icon style="color:white" onerror="this.onerror=null; this.src='assets/delete/1x/delete.png'">delete
+                    </mat-icon>
+		</button>
+		<!-- <img (click)="deleteForm(element)" src="assets/delete/delete.svg" onerror="this.onerror=null; this.src='assets/delete/1x/delete.png'"> -->
+            </td>
+	</ng-container>
+
+	<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+	<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+<!--NOTE(walid): I commented out the first and the last page, cause I didn't see them very important; -->
+<div id="paginator" class="wrap" style="float: left; display: flex">
+    <!-- <button mat-flat-button [disabled]="query.current_page == 1" (click)="search(1);"> -->
+        <!-- <mat-icon class="mat-icon-rtl-mirror" [style.color]="(query.current_page == 1) ? 'black' : 'white'" -->
+        <!-- onerror="this.onerror=null; this.src='assets/delete/1x/delete.png'">first_page -->
+            <!-- </mat-icon> -->
+	<!-- </button> -->
+
+    <button color="primary" mat-flat-button [disabled]="query.current_page == 1" (click)="search(query.current_page - 1);">
+        <mat-icon class="mat-icon-rtl-mirror" [style.color]="(query.current_page == 1) ? 'black' : 'white'"
+		  onerror="this.onerror=null; this.src='assets/delete/1x/delete.png'">chevron_left
+        </mat-icon>
+    </button>
+    <button color="primary" mat-flat-button [disabled]="query.current_page == query.last_page" (click)="search(query.current_page + 1);" >
+        <mat-icon class="mat-icon-rtl-mirror"
+		  [style.color]="(query.current_page == query.last_page) ? 'black' : 'white'"
+		  onerror="this.onerror=null; this.src='assets/delete/1x/delete.png'">chevron_right
+        </mat-icon>
+    </button>
+
+    <!-- <button mat-flat-button [disabled]="query.current_page == query.last_page" (click)="search(query.last_page);"> -->
+        <!-- <mat-icon class="mat-icon-rtl-mirror" -->
+        <!-- [style.color]="(query.current_page == query.last_page) ? 'black' : 'white'" -->
+        <!-- onerror="this.onerror=null; this.src='assets/delete/1x/delete.png'">last_page -->
+            <!-- </mat-icon> -->
+	<!-- </button> -->
+
+</div>
+
+    </div>
+    
+    
+    <div style="margin: 100px auto;">
+    <mat-spinner  *ngIf="!res.type"></mat-spinner>
+    </div>
+
+</mat-card>
+
+<!-- <h2>{{res.meta | json}}</h2> -->

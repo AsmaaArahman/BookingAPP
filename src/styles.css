@@ -1,0 +1,22 @@
+/* You can add global styles to this file, and also import other style files */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap-grid.min.css");
+@import url('https://fonts.googleapis.com/css?family=Reem+Kufi&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Cairo&display=swap');
+/* @import "~@angular/material/prebuilt-themes/pink-bluegrey.css"; */
+
+
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+    /* background-image: linear-gradient(to bottom,  #FCE4EC, #DDDDDD, #FFF, #FCE4EC );  */
+    background-color: #EEEEEE;
+    margin: 0px;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    
+}
+
+
+

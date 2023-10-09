@@ -1,0 +1,176 @@
+<h1 style="text-align:center; font-family: Cairo, Sans-Serif" dir="rtl" mat-dialog-title>{{data.element.name}}</h1>
+<div dir="" mat-dialog-content>
+    <!-- <p>{{data | json}}</p> -->
+    <table class="table table-striped" class="box1">
+        <tr>
+            <td>كليه</td>
+            <td colspan="3">
+                <p>{{data.element.faculty}}</p>
+            </td>
+        </tr>
+        <tr>
+            <td>اسم المشروع</td>
+            <td colspan="3">
+                <p>{{data.element.name}}</p>
+            </td>
+        </tr>
+        <tr>
+            <td>المجال</td>
+            <td colspan="3">
+                <p>{{data.element.field}}</p>
+            </td>
+        </tr>
+        <tr>
+            <td>الهدف من المشروع </td>
+            <td colspan="3">
+                <ul>
+                    <li *ngFor="let objective of data.element.objectives; let i = index">
+                        <hr *ngIf="i!=0">
+                        <p>{{objective.objective}}</p>
+
+                    </li>
+                </ul>
+            </td>
+
+        </tr>
+
+        <tr>
+            <td>موعد التنفيذ</td>
+            <td>
+                <p>{{this.datepipe.transform(data.element.date, 'dd/MM/yyyy')}}</p>
+            </td>
+
+            <td>مكان التنفيذ</td>
+            <td>
+                <p>{{data.element.place}}</p>
+            </td>
+        </tr>
+        <tr>
+            <td>عدد المستفيدين</td>
+            <td colspan="3">
+                <table width="100%">
+                    <tr>
+                        <th>طالب</th>
+                        <th>طالبه</th>
+                        <th>عضو هيئة تدريس</th>
+			<th>ذوي احتياجات خاصة</th>
+                        <th>عاملين</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>{{data.element.targeted_boys}}</p>
+                        </td>
+                        <td>
+                            <p>{{data.element.targeted_girls}}</p>
+                        </td>
+                        <td>
+                            <p>{{data.element.targeted_staff}}</p>
+                        </td>
+				<td>
+                            <p>{{data.element.targeted_specialneeds}}</p>
+                        </td>
+			<td>
+                            <p>{{data.element.targeted_others}}</p>
+                        </td>
+		
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>الجهات الخارجيه المشاركه</td>
+            <td colspan="3">
+                <ul>
+
+                    <li *ngFor="let element of data.element.outside_partners; let i = index">
+
+                        <hr *ngIf="i!=0">
+                        <p> {{element.partner}} </p>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+
+        <tr>
+            <td>البرنامج التفصيلى للمشروع</td>
+
+            <td colspan="3">
+                <ul>
+                    <li *ngFor="let item of data.element.programs;let i = index">
+                        <hr *ngIf="i!=0">
+                        <p> {{item.program}} </p>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    </table>
+
+    <h2>الجوائز</h2>
+    <table class="box1">
+        <tr>
+            <th>الاسم</th>
+            <!-- <th>الكلية</th> -->
+            <th>المركز</th>
+            <th>ملاحظات</th>
+        </tr>
+        <tr *ngFor="let item of data.element.rewards">
+            <td>
+                <p>{{item.name}}</p>
+            </td>
+            <!-- <td> -->
+            <!--     <p>{{item.fac}}</p> -->
+		<!-- </td> -->
+            <td>
+                <p>{{item.type}}</p>
+            </td>
+            <td>
+                <p>{{item.notes}}</p>
+            </td>
+        </tr>
+
+    </table>
+
+    <h2>تفاصيل الموازنه التقديريه للمشروع</h2>
+    <table class="box1">
+        <tr>
+            <th>البيان</th>
+            <th>الميزانيه المقترحه</th>
+            <th>نوع الدعم</th>
+            <th>ملاحظات</th>
+        </tr>
+        <tr *ngFor="let item of data.element.financials">
+            <td>
+                <p>{{item.name}}</p>
+            </td>
+            <td>
+                <p>{{item.budget}}</p>
+            </td>
+            <td>
+                <p>{{item.type}}</p>
+            </td>
+            <td>
+                <p>{{item.notes}}</p>
+            </td>
+        </tr>
+        <tr>
+            <td>جملة تكلفة المشروع</td>
+            <td colspan="3">
+                <p>{{data.total}}</p>
+            </td>
+        </tr>
+
+    </table>
+
+    <hr>
+    <h3>الصور</h3>
+    <div style="display: inline; margin:0 3px" *ngFor="let imgg of data.element.images">
+        <img width=200 [src]="img(imgg.uri)" alt="">
+    </div>
+
+
+</div>
+<div mat-dialog-actions>
+    <button (click)="action(null)" mat-flat-button> <mat-icon>cancel</mat-icon>الغاء </button>
+    <button (click)="action('delete')" mat-flat-button color="warn"> <mat-icon>delete</mat-icon> حذف</button>
+    <button (click)="action('edit')" mat-flat-button color="primary"> <mat-icon>edit</mat-icon> تعديل</button>
+</div>

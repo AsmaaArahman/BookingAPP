@@ -1,0 +1,12 @@
+<h1 dir="rtl" mat-dialog-title>حذف!!</h1>
+<div dir="rtl" mat-dialog-content>
+    <p>هل انت متأكد من حذف "{{data.element.name}}"</p>
+    <p>ادخل العبارة التالية : <span>حذف</span></p>
+    <mat-form-field>
+        <input matInput [(ngModel)]="validation">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="action(false)">الغاء</button>
+    <button [disabled]="!(validation==='حذف')" mat-flat-button color="warn" (click)="action(true)">حذف</button>
+</div>

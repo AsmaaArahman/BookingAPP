@@ -1,0 +1,285 @@
+<div class="form-container">
+    <mat-card color="primary">
+	<mat-card-header   style="direction:rtl">
+
+	    <mat-card-title>
+		<h1 class="main-header">{{isNew ? "إضافة مشروع" : "تعديل مشروع"}}</h1>
+            </mat-card-title>
+	</mat-card-header>
+
+	<mat-card-content>
+            <!-- <p>{{ress|json}}</p> -->
+            <div class="wrap">
+		<div class="alert alert-danger" *ngIf="name.invalid && (name.dirty || name.touched)">
+		    <ul>
+			<li  *ngIf="name.errors?.required" >اسم المشروع مطلوب</li>
+		    </ul>
+		</div>
+		<mat-form-field appearance="outline" class="w-50">
+                    <input matInput  [(ngModel)]="project.name" #name="ngModel" required placeholder="اسم المشروع">
+		</mat-form-field>
+
+	    </div>
+	    
+            
+	    
+            <!-- <div class="wrap"> -->
+	    <!-- 	<mat-form-field appearance="outline" class="w-50"> -->
+            <!--         <input matInput [(ngModel)]="project.field" placeholder="المجال"> -->
+	    <!-- 	</mat-form-field> -->
+		<!-- </div> -->
+
+	    <mat-form-field appearance="outline">
+		<mat-label>المجال</mat-label>
+		<mat-select [(ngModel)]="project.field">
+		    <mat-option *ngFor="let field of fieldOptions" [value]="field" >
+			{{field}}
+		    </mat-option>
+		</mat-select>
+	    </mat-form-field>
+            
+
+            <div class="wrap ">
+		<mat-form-field appearance="outline" class="w-50">
+                    <input matInput placeholder="الهدف من المشروع" [(ngModel)]="objective" (keydown.enter)="add.objective()">
+		</mat-form-field>
+		<!-- <button mat-mini-fab color="accent" style="border-radius: 10%"> -->
+		    <img style="cursor: pointer;" class="mx-1" (click)="add.objective()" src="assets/add/add.svg" onerror="this.onerror=null; this.src='assets/add/1x/add.png'">
+		    <!-- <mat-icon>add</mat-icon> -->
+		<!-- </button> -->
+		<mat-chip-list class="mat-chip-list-stacked" aria-label="Color selection">
+                    <mat-chip *ngFor="let obj of project.objectives;let i = index" selected (click)="delete.objective(i)" [color]="objectivesColor[i]" (mouseover)="objectivesColor[i]='warn';" (mouseout)="objectivesColor[i]='primary';">
+			{{obj.objective}}
+                    </mat-chip>
+		</mat-chip-list>
+            </div>
+
+            
+
+            <div class="wrap ">
+		<mat-form-field appearance="outline" (click)="picker.open()" class="w-50">
+                    <input matInput [(ngModel)]="project.date" [matDatepicker]="picker" placeholder="موعد التنفيذ" disabled>
+                    <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker disabled="false"></mat-datepicker>
+		</mat-form-field>
+            </div>
+
+            
+
+
+            <div class="wrap">
+		<mat-form-field appearance="outline" class="w-50">
+                    <input matInput [(ngModel)]="project.place" placeholder="مكان التنفيذ">
+		</mat-form-field>
+            </div>
+
+            
+
+
+            <div class="wrap">
+		<h3>عدد المستفيدين</h3>
+		<mat-form-field appearance="outline" class="mx-1">
+                    <input matInput [(ngModel)]="project.targeted_boys" type="number" placeholder="طالب">
+		</mat-form-field>
+		<mat-form-field appearance="outline" class="mx-1">
+                    <input matInput [(ngModel)]="project.targeted_girls" type="number" placeholder="طالبه">
+		</mat-form-field>
+		<mat-form-field appearance="outline" class="mx-1">
+                    <input matInput [(ngModel)]="project.targeted_staff" type="number" placeholder="عضو هيئة تدريس">
+		</mat-form-field>
+		<mat-form-field appearance="outline" class="mx-1">
+		    <input matInput [(ngModel)]="project.targeted_specialneeds" type="number" placeholder="ذوي الاحتياجات الخاصة">
+		</mat-form-field>
+
+		<mat-form-field appearance="outline" class="mx-1">
+                    <input matInput [(ngModel)]="project.targeted_others" type="number" placeholder="عاملين">
+		</mat-form-field>
+            </div>
+
+            
+
+            <div class="wrap">
+		<mat-form-field appearance="outline">
+                    <input matInput placeholder="الجهات الخارجية المشاركة" [(ngModel)]="partner" (keydown.enter)="add.partner()">
+		</mat-form-field>
+		<img (click)="add.partner()" src="assets/add/add.svg" onerror="this.onerror=null; this.src='assets/add/1x/add.png'">
+		<mat-chip-list class="mat-chip-list-stacked" aria-label="Color selection">
+                    <mat-chip *ngFor="let obj of project.outside_partners;let i = index" selected (click)="delete.partner(i)" [color]="partnersColor[i]" (mouseover)="partnersColor[i]='warn';" (mouseout)="partnersColor[i]='primary';">
+			{{obj.partner}}
+                    </mat-chip>
+		</mat-chip-list>
+            </div>
+
+
+            
+
+
+            <div class="wrap">
+		<mat-form-field appearance="outline">
+                    <input matInput placeholder="البرنامج التفصيلى للمشروع" [(ngModel)]="program" (keydown.enter)="add.program()">
+		</mat-form-field>
+		<img (click)="add.program()" src="assets/add/add.svg" onerror="this.onerror=null; this.src='assets/add/1x/add.png'">
+		<mat-chip-list class="mat-chip-list-stacked" aria-label="Color selection">
+                    <mat-chip *ngFor="let obj of project.programs;let i = index" selected (click)="delete.program(i);" [color]="programsColor[i]" (mouseover)="programsColor[i]='warn';" (mouseout)="programsColor[i]='primary';">
+			{{obj.program}}
+                    </mat-chip>
+		</mat-chip-list>
+            </div>
+
+            
+
+
+            <div class="wrap">
+		<h3>تفاصيل الموازنة التقديرية للمشروع</h3>
+		<mat-form-field appearance="outline" class="mx-1">
+                    <input matInput placeholder="البيان" [(ngModel)]="financial.name" (keydown.enter)="financial.add();">
+		</mat-form-field>
+		<mat-form-field appearance="outline" class="mx-1">
+                    <input matInput type="number" placeholder="الميزانية المقترحة" [(ngModel)]="financial.budget" (keydown.enter)="financial.add();">
+		</mat-form-field>
+		<mat-form-field appearance="outline" class="mx-1">
+                    <input matInput placeholder="نوع الدعم" [(ngModel)]="financial.type" (keydown.enter)="financial.add();">
+		</mat-form-field>
+		<mat-form-field appearance="outline" class="mx-1">
+                    <input matInput placeholder="ملاحظات" [(ngModel)]="financial.notes" (keydown.enter)="financial.add();">
+		</mat-form-field>
+
+		<img (click)="financial.add();" src="assets/add/add.svg" onerror="this.onerror=null; this.src='assets/add/1x/add.png'">
+
+
+		<mat-table [dataSource]="dataSource" *ngIf="project.financials.length!=0">
+                    <ng-container matColumnDef="name">
+			<mat-header-cell *matHeaderCellDef> البيان
+			</mat-header-cell>
+			<mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="budget">
+			<mat-header-cell *matHeaderCellDef> الميزانية المقترحة</mat-header-cell>
+			<mat-cell *matCellDef="let element"> {{element.budget}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="type">
+			<mat-header-cell *matHeaderCellDef> نوع الدعم</mat-header-cell>
+			<mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="notes">
+			<mat-header-cell *matHeaderCellDef> ملاحظات</mat-header-cell>
+			<mat-cell *matCellDef="let element"> {{element.notes}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="delete">
+			<mat-header-cell *matHeaderCellDef> حذف</mat-header-cell>
+			<mat-cell *matCellDef="let element; let i = index;"><img (click)="financial.delete(i)" src="assets/delete/delete.svg" onerror="this.onerror=null; this.src='assets/delete/1x/delete.png'">
+			</mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+		</mat-table>
+
+            </div>
+
+            
+
+            <div class="wrap">
+		<h3>الجوائز</h3>
+		<mat-form-field appearance="outline" class="mx-1">
+                    <input matInput placeholder="الاسم" [(ngModel)]="reward.name" (keydown.enter)="reward.add();">
+		</mat-form-field>
+
+		<!-- <mat-form-field appearance="outline" class="mx-1"> -->
+                    <!-- <input matInput placeholder="المركز" [(ngModel)]="reward.type" (keydown.enter)="reward.add();"> -->
+		<!-- </mat-form-field> -->
+		<mat-form-field appearance="outline">
+		    <mat-label>المركز</mat-label>
+		    <mat-select [(ngModel)]="reward.type">
+			<mat-option *ngFor="let rank of rewardRanks" [value]="rank" >
+			    {{rank}}
+			</mat-option>
+		    </mat-select>
+	    </mat-form-field>
+
+		
+		<mat-form-field appearance="outline" class="mx-1">
+                    <input matInput placeholder="ملاحظات" [(ngModel)]="reward.notes" (keydown.enter)="reward.add();">
+		</mat-form-field>
+
+		<img (click)="reward.add();" src="assets/add/add.svg" onerror="this.onerror=null; this.src='assets/add/1x/add.png'">
+
+		<mat-table [dataSource]="dataSources" *ngIf="project.rewards.length!=0">
+                    <ng-container matColumnDef="name">
+			<mat-header-cell *matHeaderCellDef> الاسم
+			</mat-header-cell>
+			<mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                    </ng-container>
+
+                    <!-- <ng-container matColumnDef="fac"> -->
+		    <!-- 	<mat-header-cell *matHeaderCellDef> الكلية</mat-header-cell> -->
+		    <!-- 	<mat-cell *matCellDef="let element"> {{element.fac}} </mat-cell> -->
+                    <!-- </ng-container> -->
+
+                    <ng-container matColumnDef="type">
+			<mat-header-cell *matHeaderCellDef> المركز</mat-header-cell>
+			<mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="notes">
+			<mat-header-cell *matHeaderCellDef> ملاحظات</mat-header-cell>
+			<mat-cell *matCellDef="let element"> {{element.notes}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="delete">
+			<mat-header-cell *matHeaderCellDef> حذف</mat-header-cell>
+			<mat-cell *matCellDef="let element; let i = index;"><img (click)="reward.delete(i)" src="assets/delete/delete.svg" onerror="this.onerror=null; this.src='assets/delete/1x/delete.png'">
+			</mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="displayedColumnss"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumnss;"></mat-row>
+		</mat-table>
+            </div>
+
+
+	    <mat-divider></mat-divider>
+
+	    
+            <div class="wrap" style="padding:40px 0">
+			    <h3>اختيار الصور</h3>
+
+		<form (ngSubmit)="upload()">
+                    <input type="hidden" name="size" value="1000000">
+                    <div>
+			<input type="file" name="image[]" accept="image/*" multiple (change)="onFileSelected($event)">
+			<!-- <button mat-flat-button color="primary" type="submit" name="upload">تحميل الصور</button> -->
+
+                    </div>
+		    <p *ngIf="uploading">جاري رفع الصور وحفظ المشروع...</p>
+		    <mat-progress-bar *ngIf="uploading" mode="query"></mat-progress-bar>
+		    
+
+		</form>
+            </div>
+
+
+
+            <!-- <h3 *ngIf="project.images.length!=0">الصور</h3> -->
+            <div>
+		<img style="width:200px" *ngFor="let imgg of project.images; let i = index" [src]="img(imgg.uri)" (click)="rmImg(imgg.uri)" alt="">
+            </div>
+            <!-- <hr> -->
+	</mat-card-content>
+	
+	<mat-divider inset></mat-divider>
+
+	<mat-card-actions>
+            <button mat-raised-button color="primary"  class="w-100" 
+		    [disabled]="uploading" (click)="upload()">حفظ</button>
+	</mat-card-actions>
+
+    </mat-card>
+</div>
+
+<!-- <p>{{res|json}}</p>
+     <p>{{project|json}}</p> -->
